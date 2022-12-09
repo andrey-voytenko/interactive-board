@@ -1,0 +1,40 @@
+:host {
+	.brick-container {
+		border: 1px dotted rgb(95, 80, 80, 0.1);
+		padding: 10px;
+
+        &.focused {
+            border-color: red;
+        }
+
+		.brick {
+			border: 1px solid green;
+			width: 200px;
+			height: 200px;
+			margin: 0 auto;
+
+            &.draggable {
+                touch-action: none;
+                -webkit-user-drag: none;
+                -webkit-tap-highlight-color: transparent;
+                user-select: none;
+                pointer-events: none;
+            }
+
+            .brick-title {
+                text-align: center;
+            }
+		}
+	}
+
+	.add-button {
+		text-align: center;
+		cursor: pointer;
+
+		img {
+			width: 190px;
+			height: 190px;
+            opacity: 0.6;
+		}
+	}
+}

@@ -1,0 +1,26 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-2 brick-container add-button" (click)="addBrick()">
+			<img src="./assets/images/add-icon.svg" />
+		</div>
+		<div
+			class="col-2 brick-container"
+			*ngFor="let brick of bricks; let draggableBrickId = index"
+			(mouseover)="onCellMouseover($event, draggableBrickId)"
+			(mouseout)="onCellMouseout(draggableBrickId)"
+			[ngClass]="{ 'focused': brick.focused }">
+			<div
+				class="brick"
+				cdkDragBoundary=".container-fluid"
+				cdkDrag
+				(cdkDragStarted)="onBrickDragStarted(draggableBrickId)"
+				(cdkDragEnded)="onBrickDragEnded($event, draggableBrickId)"
+                [style.backgroundColor]="brick.color"
+				[ngClass]="{
+					'draggable': brick.isDraggable
+				}">
+				<p class="brick-title">{{ brick.title }}</p>
+			</div>
+		</div>
+	</div>
+</div>
