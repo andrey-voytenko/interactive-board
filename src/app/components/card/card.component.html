@@ -1,0 +1,26 @@
+<div
+	class="card-item"
+	cdkDragBoundary=".container-fluid"
+	cdkDrag
+	(cdkDragStarted)="onCardDragStarted.emit(index)"
+	(cdkDragEnded)="onCardDragEnded.emit({$event, index})"
+	[ngClass]="{
+		draggable: card?.isDraggable
+	}"
+	[ngStyle]="{
+		background: card?.backgroundImage
+	}">
+	<p class="card-title">{{ card?.title }}</p>
+	<p class="card-description">
+		{{ card?.description || '' | limitTo : 400 }}
+	</p>
+	<div class="card-footer">
+		<span class="card-date">{{ card?.date | date : 'medium' }}</span>
+
+		<app-card-menu
+			[index]="index"
+			(onCopy)="onCopy.emit($event)"
+			(onRemove)="onRemove.emit($event)">
+		</app-card-menu>
+	</div>
+</div>

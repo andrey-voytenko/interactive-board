@@ -10,9 +10,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CardComponent } from './components/card/card.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { TruncatePipe } from './pipes/truncate';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CardMenuComponent } from './components/card-menu/card-menu.component';
 
 @NgModule({
-	declarations: [AppComponent, BoardComponent, ControlPanelComponent, CardComponent],
+	declarations: [
+		AppComponent,
+		BoardComponent,
+		ControlPanelComponent,
+		CardComponent,
+		TruncatePipe,
+  CardMenuComponent,
+	],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
@@ -20,6 +32,9 @@ import { CardComponent } from './components/card/card.component';
 		NgbModule,
 		BrowserAnimationsModule,
 		DragDropModule,
+		MatMenuModule,
+		MatIconModule,
+		MatTooltipModule,
 	],
 	providers: [],
 	bootstrap: [AppComponent],

@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CardType } from 'src/app/types/card.types';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+	selector: 'app-card',
+	templateUrl: './card.component.html',
+	styleUrls: ['./card.component.scss'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
+	@Input() card?: CardType;
+	@Input() index?: number;
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+	@Output() onCopy = new EventEmitter();
+	@Output() onRemove = new EventEmitter();
+	@Output() onCardDragStarted = new EventEmitter();
+	@Output() onCardDragEnded = new EventEmitter();
 }

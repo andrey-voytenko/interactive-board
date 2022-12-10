@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatMenuModule } from '@angular/material/menu';
-import { TruncatePipe } from 'src/app/pipes/truncate';
 
-import { CardComponent } from './card.component';
+import { CardMenuComponent } from './card-menu.component';
 
-describe('CardComponent', () => {
-	let component: CardComponent;
-	let fixture: ComponentFixture<CardComponent>;
+describe('CardMenuComponent', () => {
+	let component: CardMenuComponent;
+	let fixture: ComponentFixture<CardMenuComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [CardComponent, TruncatePipe],
+			imports: [MatMenuModule],
+			declarations: [CardMenuComponent],
 		}).compileComponents();
 
-		fixture = TestBed.createComponent(CardComponent);
+		fixture = TestBed.createComponent(CardMenuComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

@@ -1,0 +1,45 @@
+:host {
+	.card-item {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid green;
+		width: 250px;
+		height: 350px;
+		margin: 0 auto;
+		border-radius: 15px;
+		box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+		padding: 10px;
+		cursor: move;
+		background-repeat: no-repeat;
+		transform-style: flat;
+
+		&.draggable {
+			touch-action: none;
+			-webkit-user-drag: none;
+			-webkit-tap-highlight-color: transparent;
+			user-select: none;
+			pointer-events: none;
+		}
+
+		.card-title {
+			text-align: center;
+			font-size: 16px;
+			margin-top: 5px;
+		}
+
+		.card-description {
+			text-align: justify;
+			flex: 1 0 auto;
+		}
+
+		.card-footer {
+			display: inline-flex;
+			justify-content: space-between;
+
+			.card-date {
+				flex: 0 0 auto;
+				font-size: 12px;
+			}
+		}
+	}
+}

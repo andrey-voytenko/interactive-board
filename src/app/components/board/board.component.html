@@ -1,26 +1,22 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-2 brick-container add-button" (click)="addBrick()">
+		<div class="col card-container add-button" (click)="addCard()">
 			<img src="./assets/images/add-icon.svg" />
 		</div>
 		<div
-			class="col-2 brick-container"
-			*ngFor="let brick of bricks; let draggableBrickId = index"
-			(mouseover)="onCellMouseover($event, draggableBrickId)"
-			(mouseout)="onCellMouseout(draggableBrickId)"
-			[ngClass]="{ 'focused': brick.focused }">
-			<div
-				class="brick"
-				cdkDragBoundary=".container-fluid"
-				cdkDrag
-				(cdkDragStarted)="onBrickDragStarted(draggableBrickId)"
-				(cdkDragEnded)="onBrickDragEnded($event, draggableBrickId)"
-                [style.backgroundColor]="brick.color"
-				[ngClass]="{
-					'draggable': brick.isDraggable
-				}">
-				<p class="brick-title">{{ brick.title }}</p>
-			</div>
+			class="col card-container"
+			*ngFor="let card of cards; let cardId = index"
+			(mouseover)="onCellMouseover($event, cardId)"
+			(mouseout)="onCellMouseout(cardId)"
+			[ngClass]="{ focused: card.focused }">
+			<app-card
+				[card]="card"
+				[index]="cardId"
+				(onCopy)="copyCard($event)"
+				(onRemove)="removeCard($event)"
+				(onCardDragStarted)="onCardDragStarted($event)"
+				(onCardDragEnded)="onCardDragEnded($event.$event, $event.index)">
+			</app-card>
 		</div>
 	</div>
 </div>

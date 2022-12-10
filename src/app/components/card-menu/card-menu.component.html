@@ -1,0 +1,12 @@
+<span class="card-menu" mat-icon-button [matMenuTriggerFor]="menu">...</span>
+<mat-menu #menu="matMenu">
+	<button mat-menu-item (click)="onCopy.emit(index)">
+		<mat-icon>file_copy</mat-icon>
+		<span>Copy</span>
+	</button>
+
+	<button mat-menu-item (click)="onRemove.emit(index)">
+		<mat-icon>remove_circle</mat-icon>
+		<span>Remove</span>
+	</button>
+</mat-menu>
