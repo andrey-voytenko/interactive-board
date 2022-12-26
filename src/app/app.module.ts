@@ -15,6 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { TruncatePipe } from './pipes/truncate';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CardMenuComponent } from './components/card-menu/card-menu.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { metaReducers, reducers } from './store';
 
 @NgModule({
 	declarations: [
@@ -23,18 +26,28 @@ import { CardMenuComponent } from './components/card-menu/card-menu.component';
 		ControlPanelComponent,
 		CardComponent,
 		TruncatePipe,
-  CardMenuComponent,
+		CardMenuComponent,
 	],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
-		StoreModule.forRoot({}, {}),
+		StoreModule.forRoot(reducers, {
+			metaReducers,
+			runtimeChecks: {
+				strictStateImmutability: true,
+				strictActionImmutability: true,
+			},
+		}),
 		NgbModule,
 		BrowserAnimationsModule,
 		DragDropModule,
 		MatMenuModule,
 		MatIconModule,
 		MatTooltipModule,
+		StoreDevtoolsModule.instrument({
+			maxAge: 25,
+			logOnly: environment.production,
+		}),
 	],
 	providers: [],
 	bootstrap: [AppComponent],

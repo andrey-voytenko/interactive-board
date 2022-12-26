@@ -49,6 +49,14 @@
       "rules": {
         "@angular-eslint/template/no-any": "warn"
       }
+    },
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "plugin:@ngrx/store-strict"
+      ]
     }
   ]
 }

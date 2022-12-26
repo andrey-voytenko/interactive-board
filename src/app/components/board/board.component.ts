@@ -1,66 +1,74 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { CardType } from 'src/app/types/card.types';
-import defaultCardValues from '../../mockes/card.mock.json';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { IAppState } from 'src/app/store';
+import {
+	AddCardAction,
+	ChangeFocusedCardAction,
+	CopyCardAction,
+	RemoveCardAction,
+	StartDraggingAction,
+	StopDraggingAction,
+} from 'src/app/store/actions/board.actions';
+import { ICard, IStatus } from 'src/app/store/models/card.model';
+import {
+	cardsSelector,
+	statusSelector,
+} from 'src/app/store/selectors/board.selectors';
+
 @Component({
 	selector: 'app-board',
 	templateUrl: './board.component.html',
 	styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent {
-	private isDragging = false;
+	constructor(private store$: Store<IAppState>) {}
+	public cards: ICard[] = [];
 
-	public cards: CardType[] = [];
+	private isDraggingMode = false;
+	private focusedCardIndex = -1;
 
-	public onCellMouseover(event: Event, index: number) {
+	trackByIndex(index: number) {
+		return index;
+	}
+
+	ngOnInit(): void {
+		this.store$.pipe(select(statusSelector)).subscribe((status: IStatus) => {
+			this.isDraggingMode = status.isDraggingModeActive;
+		});
+
+		this.store$.pipe(select(cardsSelector)).subscribe((cards: ICard[]) => {
+			this.cards = cards;
+			this.focusedCardIndex = this.cards.findIndex(x => x.focused);
+		});
+	}
+
+	public onCellMouseover(event: Event, focusedCardIndex: number) {
 		event.preventDefault();
-		this.cards[index].focused = this.isDragging;
-	}
-
-	public onCellMouseout(index: number) {
-		this.cards[index].focused = false;
-	}
-
-	public onCardDragStarted(index: number) {
-		this.cards[index].isDraggable = true;
-		this.isDragging = true;
-	}
-
-	public onCardDragEnded(event: CdkDragEnd, draggableCardId: number) {
-		this.cards[draggableCardId].isDraggable = false;
-		this.isDragging = false;
-
-		const replacedCardIndex = this.cards.findIndex(x => x.focused);
-		if (replacedCardIndex > -1) {
-			const draggableCard = this.cards[draggableCardId];
-			this.cards[draggableCardId] = this.cards[replacedCardIndex];
-			this.cards[replacedCardIndex] = draggableCard;
+		if (this.isDraggingMode && this.focusedCardIndex !== focusedCardIndex) {
+			this.store$.dispatch(new ChangeFocusedCardAction({ focusedCardIndex }));
 		}
+	}
 
+	public onCardDragStarted(draggingCardIndex: number) {
+		this.store$.dispatch(new StartDraggingAction({ draggingCardIndex }));
+	}
+
+	public onCardDragEnded(event: any, draggingCardIndex: number) {
+		this.store$.dispatch(new StopDraggingAction({ draggingCardIndex }));
 		event.source._dragRef.reset();
 	}
 
 	public addCard() {
-		this.cards.push({
-			title: defaultCardValues.title + (this.cards.length + 1),
-			description: defaultCardValues.desctiption,
-			date: new Date(),
-			backgroundImage: `url(./assets/images/backgrounds/${Math.floor(
-				Math.random() * 19
-			)}.jpg)`,
-			isDraggable: false,
-			focused: false,
-		});
+		this.store$.dispatch(new AddCardAction());
 	}
 
-	public copyCard(cardId: number) {
-		const cardCopy = Object.assign({}, this.cards[cardId]);
-		cardCopy.title += ' - copy';
-		cardCopy.date = new Date();
-		this.cards.splice(cardId + 1, 0, cardCopy);
+	public copyCard(cardIndex: number) {
+		this.store$.dispatch(new CopyCardAction({ cardIndex }));
 	}
 
-	public removeCard(cardId: number) {
-		this.cards.splice(cardId, 1);
+	public removeCard(cardIndex: number) {
+		this.store$.dispatch(new RemoveCardAction({ cardIndex }));
 	}
 }

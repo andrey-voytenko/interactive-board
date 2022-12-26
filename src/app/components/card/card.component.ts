@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CardType } from 'src/app/types/card.types';
+import { ICard } from 'src/app/store/models/card.model';
 
 @Component({
 	selector: 'app-card',
@@ -7,7 +7,7 @@ import { CardType } from 'src/app/types/card.types';
 	styleUrls: ['./card.component.scss'],
 })
 export class CardComponent {
-	@Input() card?: CardType;
+	@Input() card?: ICard;
 	@Input() index?: number;
 
 	@Output() onCopy = new EventEmitter();
