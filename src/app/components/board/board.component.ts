@@ -1,7 +1,5 @@
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { IAppState } from 'src/app/store';
 import {
 	AddCardAction,
@@ -11,9 +9,10 @@ import {
 	StartDraggingAction,
 	StopDraggingAction,
 } from 'src/app/store/actions/board.actions';
-import { ICard, IStatus } from 'src/app/store/models/card.model';
+import { IStatus } from 'src/app/store/models/card.model';
 import {
 	cardsSelector,
+	focusedCardIndexSelector,
 	statusSelector,
 } from 'src/app/store/selectors/board.selectors';
 
@@ -24,27 +23,25 @@ import {
 })
 export class BoardComponent {
 	constructor(private store$: Store<IAppState>) {}
-	public cards: ICard[] = [];
+
+	public cards$ = this.store$.pipe(select(cardsSelector));
+	public status$ = this.store$.pipe(select(statusSelector));
+	public focusedCardIndex$ = this.store$.pipe(select(focusedCardIndexSelector));
 
 	private isDraggingMode = false;
 	private focusedCardIndex = -1;
 
-	trackByIndex(index: number) {
-		return index;
-	}
-
 	ngOnInit(): void {
-		this.store$.pipe(select(statusSelector)).subscribe((status: IStatus) => {
+		this.status$.subscribe((status: IStatus) => {
 			this.isDraggingMode = status.isDraggingModeActive;
 		});
 
-		this.store$.pipe(select(cardsSelector)).subscribe((cards: ICard[]) => {
-			this.cards = cards;
-			this.focusedCardIndex = this.cards.findIndex(x => x.focused);
+		this.focusedCardIndex$.subscribe((index: number) => {
+			this.focusedCardIndex = index;
 		});
 	}
 
-	public onCellMouseover(event: Event, focusedCardIndex: number) {
+	public onCellMouseOver(event: Event, focusedCardIndex: number) {
 		event.preventDefault();
 		if (this.isDraggingMode && this.focusedCardIndex !== focusedCardIndex) {
 			this.store$.dispatch(new ChangeFocusedCardAction({ focusedCardIndex }));
@@ -70,5 +67,9 @@ export class BoardComponent {
 
 	public removeCard(cardIndex: number) {
 		this.store$.dispatch(new RemoveCardAction({ cardIndex }));
+	}
+
+	public trackByIndex(index: number) {
+		return index;
 	}
 }

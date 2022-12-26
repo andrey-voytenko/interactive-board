@@ -13,3 +13,8 @@ export const statusSelector = createSelector(
 	boardFeatureSelectore,
 	(state: IBoardState) => state.status
 );
+
+export const focusedCardIndexSelector = createSelector(
+	boardFeatureSelectore,
+	(state: IBoardState) => state.cards.findIndex(x => x.focused)
+);

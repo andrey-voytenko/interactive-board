@@ -5,8 +5,12 @@
 		</div>
 		<div
 			class="col card-container"
-			*ngFor="let card of cards; let cardId = index; trackBy: trackByIndex"
-			(mouseover)="onCellMouseover($event, cardId)"
+			*ngFor="
+				let card of cards$ | async;
+				let cardId = index;
+				trackBy: trackByIndex
+			"
+			(mouseover)="onCellMouseOver($event, cardId)"
 			[ngClass]="{ focused: card.focused }">
 			<app-card
 				[card]="card"
