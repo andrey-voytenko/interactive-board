@@ -30,15 +30,27 @@
 		.card-description {
 			text-align: justify;
 			flex: 1 0 auto;
+			resize: none;
+		}
+
+		.edit {
+			background: transparent;
+			border: none;
+
+			&:focus-visible {
+				border: none;
+			}
 		}
 
 		.card-footer {
 			display: inline-flex;
 			justify-content: space-between;
+			align-items: end;
 
 			.card-date {
 				flex: 0 0 auto;
 				font-size: 12px;
+				display: block;
 			}
 		}
 	}

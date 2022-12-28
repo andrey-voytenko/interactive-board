@@ -10,6 +10,7 @@ export class CardComponent {
 	@Input() card?: ICard;
 	@Input() index?: number;
 
+	@Output() onEdit = new EventEmitter();
 	@Output() onCopy = new EventEmitter();
 	@Output() onRemove = new EventEmitter();
 	@Output() onCardDragStarted = new EventEmitter();

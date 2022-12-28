@@ -18,6 +18,14 @@ import { CardMenuComponent } from './components/card-menu/card-menu.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { metaReducers, reducers } from './store';
+import { CardEditModalComponent } from './components/modals/card-edit-modal/card-edit-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { DialogEffects } from './store/effects/dialog.effects';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
 	declarations: [
@@ -27,6 +35,7 @@ import { metaReducers, reducers } from './store';
 		CardComponent,
 		TruncatePipe,
 		CardMenuComponent,
+		CardEditModalComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -35,7 +44,7 @@ import { metaReducers, reducers } from './store';
 			metaReducers,
 			runtimeChecks: {
 				strictStateImmutability: true,
-				strictActionImmutability: true,
+				strictActionImmutability: false,
 			},
 		}),
 		NgbModule,
@@ -48,8 +57,15 @@ import { metaReducers, reducers } from './store';
 			maxAge: 25,
 			logOnly: environment.production,
 		}),
+		MatDialogModule,
+		MatFormFieldModule,
+		MatInputModule,
+		ReactiveFormsModule,
+		MatButtonModule,
+		EffectsModule.forRoot([DialogEffects]),
 	],
 	providers: [],
 	bootstrap: [AppComponent],
+	entryComponents: [CardEditModalComponent],
 })
 export class AppModule {}

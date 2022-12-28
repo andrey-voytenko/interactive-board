@@ -18,3 +18,8 @@ export const focusedCardIndexSelector = createSelector(
 	boardFeatureSelectore,
 	(state: IBoardState) => state.cards.findIndex(x => x.focused)
 );
+
+export const cardsCountSelector = createSelector(
+	boardFeatureSelectore,
+	(state: IBoardState) => state.cards.length
+);

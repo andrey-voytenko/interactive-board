@@ -1,6 +1,7 @@
 import { BoardActions, BoardActionTypes } from '../actions/board.actions';
-import { ICard, IStatus } from '../models/card.model';
+import { ICard, ICardEdit, IStatus } from '../models/card.model';
 import defaultCardValues from '../../mockes/card.mock.json';
+import { DialogActionTypes } from '../actions/dialog.actions';
 
 export interface IBoardState {
 	cards: ICard[];
@@ -11,6 +12,7 @@ const initialState: IBoardState = {
 	cards: [],
 	status: {
 		isDraggingModeActive: false,
+		isCardEditModalShown: false,
 	},
 };
 
@@ -20,10 +22,12 @@ export const boardReducer = (
 ) => {
 	switch (action.type) {
 		case BoardActionTypes.ADD_CARD: {
-			const newBrick = {
-				title: defaultCardValues.title + (state.cards.length + 1),
+			const payload = action.payload;
+
+			const newBrick: ICard = {
+				title: defaultCardValues.title + payload.titleSuffix,
 				description: defaultCardValues.desctiption,
-				date: new Date(),
+				createDate: payload.createDate,
 				backgroundImage: `url(./assets/images/backgrounds/${Math.floor(
 					Math.random() * 19
 				)}.jpg)`,
@@ -37,10 +41,13 @@ export const boardReducer = (
 			};
 		}
 		case BoardActionTypes.COPY_CARD: {
-			const cardIndex = action.payload.cardIndex;
+			const payload = action.payload;
+
+			const cardIndex = payload.cardIndex;
 			const cardCopy = Object.assign({}, state.cards[cardIndex]);
 			cardCopy.title += ' - copy';
-			cardCopy.date = new Date();
+			cardCopy.createDate = payload.createDate;
+			cardCopy.updateDate = undefined;
 			return {
 				...state,
 				cards: [
@@ -58,6 +65,27 @@ export const boardReducer = (
 					...state.cards.slice(0, cardIndex),
 					...state.cards.slice(cardIndex + 1),
 				],
+			};
+		}
+		case DialogActionTypes.SAVE_DIALOG: {
+			const payload = action.payload as ICardEdit;
+			if (!payload) {
+				return state;
+			}
+
+			return {
+				...state,
+				cards: state.cards.map((item, index) => {
+					if (index === payload.cardIndex) {
+						item = {
+							...item,
+							title: payload.title,
+							description: payload.description,
+							updateDate: payload.updateDate,
+						};
+					}
+					return item;
+				}),
 			};
 		}
 		case BoardActionTypes.START_DRAGGING: {

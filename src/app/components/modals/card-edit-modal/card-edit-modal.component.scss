@@ -1,0 +1,15 @@
+:host {
+	.dialog-form {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+
+		.full-width-field {
+			width: 100%;
+		}
+	}
+
+	.dialog-footer {
+		float: right;
+	}
+}

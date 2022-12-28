@@ -15,6 +15,7 @@
 			<app-card
 				[card]="card"
 				[index]="cardId"
+				(onEdit)="openEditCardModal($event, card)"
 				(onCopy)="copyCard($event)"
 				(onRemove)="removeCard($event)"
 				(onCardDragStarted)="onCardDragStarted($event)"

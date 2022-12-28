@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Edit card</h2>
+
+<mat-dialog-content class="dialog-form" [formGroup]="editForm">
+	<mat-form-field>
+		<input
+			class="full-width-field"
+			matInput
+			placeholder="Card title"
+			formControlName="title"
+			[(ngModel)]="data.title" />
+	</mat-form-field>
+	<mat-form-field class="full-width-field">
+		<mat-label>Desctiption</mat-label>
+		<textarea
+			matInput
+			placeholder="Card description"
+			formControlName="description"
+			[(ngModel)]="data.description"
+			maxlength="400"
+			rows="10"></textarea>
+	</mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-footer">
+	<button class="mat-button mat-dialog-close" [mat-dialog-close]>Close</button>
+	<button mat-flat-button color="primary" [mat-dialog-close]="data">
+		Save
+	</button>
+</mat-dialog-actions>

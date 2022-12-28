@@ -14,11 +14,18 @@
 	<p class="card-description">
 		{{ card?.description || '' | limitTo : 400 }}
 	</p>
+
 	<div class="card-footer">
-		<span class="card-date">{{ card?.date | date : 'medium' }}</span>
+		<div class="card-date">
+			<div>Created: {{ card?.createDate | date : 'medium' }}</div>
+			<div *ngIf="card?.updateDate">
+				Updated: {{ card?.updateDate | date : 'medium' }}
+			</div>
+		</div>
 
 		<app-card-menu
 			[index]="index"
+			(onEdit)="onEdit.emit($event)"
 			(onCopy)="onCopy.emit($event)"
 			(onRemove)="onRemove.emit($event)">
 		</app-card-menu>

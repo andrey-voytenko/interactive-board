@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class CardMenuComponent {
 	@Input() index?: number;
+	@Output() onEdit = new EventEmitter();
 	@Output() onCopy = new EventEmitter();
 	@Output() onRemove = new EventEmitter();
 }
