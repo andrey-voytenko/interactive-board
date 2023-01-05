@@ -26,7 +26,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { DialogEffects } from './store/effects/dialog.effects';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
+import { ApiModule, APIS } from './backend-services/index';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -63,8 +64,10 @@ import { MatButtonModule } from '@angular/material/button';
 		ReactiveFormsModule,
 		MatButtonModule,
 		EffectsModule.forRoot([DialogEffects]),
+		HttpClientModule,
+		ApiModule,
 	],
-	providers: [],
+	providers: [APIS],
 	bootstrap: [AppComponent],
 	entryComponents: [CardEditModalComponent],
 })
